@@ -1,138 +1,147 @@
 MP3 Tag Reader
 
-A command-line based MP3 Tag Editor developed in C for reading and modifying ID3v2.3 metadata stored inside MP3 files. The project demonstrates practical usage of C programming, file handling, structures, strings, dynamic memory allocation, and binary data processing.
+A simple command-line MP3 metadata editor written in C. It allows users to view and edit ID3v2.3 tags such as title, artist, album, year, genre, and comments using binary file handling and command-line arguments.
 
 Features
-View MP3 metadata from ID3v2.3 tags.
-Edit individual MP3 tags from the command line.
-Supports the following metadata:
-Title (TIT2)
-Artist (TPE1)
-Album (TALB)
-Year (TYER)
-Genre (TCON)
-Comments (COMM)
-Validates MP3 file extension before processing.
-Reads and writes MP3 files using binary file operations.
-Handles ID3 frame sizes using big-endian conversion.
-Uses a temporary file during metadata modification to preserve the remaining MP3 data.
-Provides command-line based interaction without requiring a graphical interface.
+
+View Metadata — Display ID3v2.3 metadata stored in an MP3 file
+
+Edit Title — Update the title of the MP3 file
+
+Edit Artist — Update the artist name
+
+Edit Album — Update the album name
+
+Edit Year — Update the release year
+
+Edit Genre — Update the genre
+
+Edit Comments — Update the comment field
+
+MP3 Validation — Validate the input file before processing
+
+Binary File Handling — Read and modify MP3 metadata at the byte level
+
 Project Structure
 MP3_Tag_Editor/
-│
-├── main.c
-├── view.c
-├── view.h
-├── edit.c
-├── edit.h
-├── sample.mp3
-└── README.md
+├── main.c              # Program entry point and command-line handling
+├── view.c              # MP3 metadata reading and display operations
+├── view.h              # View function declarations
+├── edit.c              # MP3 metadata editing operations
+├── edit.h              # Edit function declarations
+├── sample.mp3          # Sample MP3 file for testing
+└── README.md           # Project documentation
 Requirements
-Operating System: Linux / Windows with GCC or MinGW
-Compiler: GCC
-Language: C
-MP3 File: ID3v2.3 compatible MP3 file
-Basic command-line/terminal environment
-
-No external libraries are required.
-
+GCC or another C compiler
+Linux, macOS, or Windows with a C development environment
+Terminal or Command Prompt
+An MP3 file containing ID3v2.3 metadata
 File Description
 File	Description
-main.c	Handles command-line arguments and determines whether the user wants to view or edit metadata.
-view.c	Contains the logic for reading and displaying ID3v2.3 metadata from an MP3 file.
-view.h	Contains function declarations required by view.c.
-edit.c	Contains the logic for locating and modifying MP3 metadata frames.
-edit.h	Contains function declarations required by edit.c.
-sample.mp3	Sample MP3 file used for testing the application.
-README.md	Project documentation.
+main.c	Program entry point, argument handling, and operation selection
+view.c	Reads and displays ID3v2.3 metadata from MP3 files
+view.h	Function declarations used by the view module
+edit.c	Locates and modifies metadata frames in MP3 files
+edit.h	Function declarations used by the edit module
+sample.mp3	Sample MP3 file used for testing
+README.md	Project documentation
 Application Flow
 View Metadata
-User Command
-     │
-     ▼
-   main.c
-     │
-     ▼
+Start
+  |
+  v
+Read Command-Line Arguments
+  |
+  v
 Validate MP3 File
-     │
-     ▼
-  view.c
-     │
-     ▼
-Open MP3 in Binary Mode
-     │
-     ▼
+  |
+  v
+Open MP3 File
+  |
+  v
 Read ID3 Header
-     │
-     ▼
-Read Frame ID + Frame Size
-     │
-     ▼
-Extract Frame Data
-     │
-     ▼
+  |
+  v
+Read Metadata Frames
+  |
+  v
+Identify Required Tags
+  |
+  v
 Display Metadata
+  |
+  v
+End
 Edit Metadata
-User Command
-     │
-     ▼
-   main.c
-     │
-     ▼
-Validate Arguments
-     │
-     ▼
-  edit.c
-     │
-     ▼
+Start
+  |
+  v
+Read Command-Line Arguments
+  |
+  v
+Validate Input
+  |
+  v
 Open Original MP3
-     │
-     ▼
-Create Temporary MP3
-     │
-     ▼
+  |
+  v
+Create Temporary File
+  |
+  v
 Read ID3 Frames
-     │
-     ▼
-Find Required Frame
-     │
-     ▼
+  |
+  v
+Find Selected Frame
+  |
+  v
 Replace Metadata
-     │
-     ▼
+  |
+  v
 Copy Remaining MP3 Data
-     │
-     ▼
+  |
+  v
 Replace Original File
+  |
+  v
+End
+Supported Metadata
+
+The application works with the following ID3v2.3 frame identifiers:
+
+Option	Frame ID	Metadata
+-t	TIT2	Title
+-a	TPE1	Artist
+-A	TALB	Album
+-y	TYER	Year
+-g	TCON	Genre
+-c	COMM	Comments
 Compilation
 
-Clone the repository and navigate to the project directory:
+Compile all source files using GCC:
 
-cd MP3_Tag_Editor
+gcc main.c view.c edit.c -o mp3tag
 
-Compile the project using GCC:
+For compilation with warnings enabled:
 
 gcc -Wall -Wextra main.c view.c edit.c -o mp3tag
-
-This generates the executable:
-
-mp3tag
 Execution
+Linux / macOS
+./mp3tag -v sample.mp3
+Windows
+mp3tag.exe -v sample.mp3
+Usage
 View MP3 Metadata
 ./mp3tag -v sample.mp3
 
-Example output:
+Example:
 
 ID3 version : 2.3.0
 Title       : Baagundu Po
 Artist      : Sai Abhyankkar, Sanjith Hegde
 Album       : Dude
 Year        : 2025
-Genre       : Pop
-Comments    : Sample comment
-Usage
-View Metadata
-./mp3tag -v sample.mp3
+Genre       : Sad
+Comments    : Banger
 Edit Title
 ./mp3tag -e -t "New Title" sample.mp3
 Edit Year
@@ -142,60 +151,57 @@ Edit Artist
 Edit Album
 ./mp3tag -e -A "Album Name" sample.mp3
 Edit Genre
-./mp3tag -e -g "Pop" sample.mp3
+./mp3tag -e -g "Rock" sample.mp3
 Edit Comments
 ./mp3tag -e -c "My Comment" sample.mp3
-Supported ID3v2.3 Frames
-Option	Frame ID	Metadata
--t	TIT2	Title
--a	TPE1	Artist
--A	TALB	Album
--y	TYER	Year
--g	TCON	Genre
--c	COMM	Comments
 Data Storage
 
-The project works directly with the ID3v2.3 metadata stored inside the MP3 file.
+The project uses the ID3v2.3 metadata section stored inside the MP3 file.
 
-An ID3v2.3 tag consists of a header followed by multiple metadata frames:
+The metadata is organized into individual frames:
 
 MP3 File
-│
-├── ID3 Header
-│
-├── TIT2 → Title
-├── TPE1 → Artist
-├── TALB → Album
-├── TYER → Year
-├── TCON → Genre
-├── COMM → Comments
-└── Other Frames
+   |
+   +-- ID3 Header
+   |
+   +-- TIT2  --> Title
+   |
+   +-- TPE1  --> Artist
+   |
+   +-- TALB  --> Album
+   |
+   +-- TYER  --> Year
+   |
+   +-- TCON  --> Genre
+   |
+   +-- COMM  --> Comments
+   |
+   +-- Other MP3 Data
 
-Each frame contains information such as:
+Each ID3v2.3 frame contains:
 
-Frame ID
-   ↓
-Frame Size
-   ↓
-Flags
-   ↓
-Frame Data
++----------+------------+-------+-------------+
+| Frame ID | Frame Size | Flags | Frame Data  |
++----------+------------+-------+-------------+
+   4 bytes    4 bytes    2 bytes    Variable
 
-The application reads these fields using C file-handling functions such as fopen(), fread(), fwrite(), fseek(), and fclose().
+During an edit operation, the application creates a temporary MP3 file, writes the modified metadata, copies the remaining file data, and then replaces the original MP3 file.
 
-When editing a tag, the application creates a temporary MP3 file, writes the updated metadata, copies the remaining data, and then replaces the original file.
+Concepts Used
 
-Technologies Used
-C Programming
-File Handling
-Binary File Processing
-String Manipulation
-Dynamic Memory Allocation
-Command-Line Arguments
-ID3v2.3 Metadata
-GCC Compiler
+This project demonstrates practical implementation of:
 
+C file handling
+Binary file operations
+Command-line arguments
+String manipulation
+Dynamic memory allocation
+Pointers
+fread() and fwrite()
+fseek() and fclose()
+Big-endian byte conversion
+ID3v2.3 metadata frame processing
 
 Author
 
-Manubolu Dileep chowdary
+Manubolu Dileepchowdary
