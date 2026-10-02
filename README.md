@@ -695,6 +695,4 @@ This project demonstrates practical implementation of:
 
 ## Author
 
-**Dileep**
-
-C Programming | Embedded Systems | VLSI Enthusiast
+**Manubolu Dileepchowdary**
